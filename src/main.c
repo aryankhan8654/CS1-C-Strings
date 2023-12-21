@@ -1,31 +1,30 @@
+// TODO: define, document, and implement this function
+
+void initializeBlankString(int size, char *s);
+// TODO: define, document, and implement this function
+void printWithSpaces(char *s);
+
+// TODO: define, document, and implement this function
+int revealGuessedLetter(const char *str_1, char *str_2, char ch);
+
+// TODO: define, document, and implement this function
+int checkGuess(char *str_1, char *str_2);
+
+// the following functions have been done for you.
+
 /**
- * A game where the user has N chances to guess a random word pulled
- * from a file before they lose, one letter at a time.
- *
+ * Sets the game up, checks for win condition,
+ * prints relevant data
  */
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
+void startGame(char *wordToGuess);
 
-#include "gameFunctions.h"
+/**
+ * Clears the unix terminal of previous input
+ */
+void clearScreen();
 
-int main(int argc, char **argv) {
-  char guessWords[50][25];
-
-  FILE *inp = fopen("data/dictionary.txt", "r");
-
-  // reads in all words from dictionary into the guessWords array
-  int counter = 0;
-  while (fscanf(inp, "%s", guessWords[counter]) != EOF) {
-    counter++;
-  }
-
-  // Gets a random number between 0 abd counter to use for an index
-  srand(time(NULL));
-  int stringNumber = rand() % counter;
-
-  // Starts the game
-  startGame(guessWords[stringNumber]);
-
-  return 0;
-}
+/**
+ * Prints part of the horse based on the ratio between
+ * the two numbers.
+ */
+void drawHorse(int guessedSoFar, int allowedGuesses);

@@ -4,21 +4,95 @@
 
 #include "gameFunctions.h"
 
-initializeBlankString() {}
+void initializeBlankString(int size, char *s)
+{
 
-printWithSpaces() {}
+  for (int i = 0; i < size; i++)
+  {
 
-revealGuessedLetter() {}
+    s[i] = '_';
+  }
+}
 
-checkGuess() {}
+void printWithSpaces(char *s)
+{
 
-void startGame(char word[25]) {
-  int won = 0;  // Flag to see if the user has won yet
-  int numBadGuesses = 0;  // Counter to end the game on a lose condition
-  int possibleBadGuesses;  // Total number of bad guesses allowed
-  int charRevealed;  // Flag to see if the user guessed a good letter
-  char guess;  // The user's guess
-  char revealedLetters[25];  // What the user has revealed so far
+  int size = (strlen(s) + (strlen(s) - 1)) + 1;
+
+  char new_str[size];
+
+  new_str[size - 1] = '\0';
+
+  for (int i = 0; i < (size - 1); i++)
+  {
+
+    if (i % 2 != 0)
+    {
+
+      new_str[i] = ' ';
+    }
+
+    else
+    {
+
+      new_str[i] = *s;
+      s++;
+    }
+  }
+
+  printf("%s", new_str);
+}
+
+int revealGuessedLetter(const char *str_1, char *str_2, char ch)
+{
+
+  int count = 0;
+
+  while (*str_1 != '\0')
+  {
+
+    if (*str_1 == ch)
+    {
+
+      *str_2 = ch;
+      count++;
+    }
+
+    str_1++;
+    str_2++;
+  }
+
+  if (count == 0)
+  {
+
+    return 0;
+  }
+
+  return 1;
+}
+
+int checkGuess(char *str_1, char *str_2)
+{
+
+  int check = strcmp(str_1, str_2);
+
+  if (check == 0)
+  {
+
+    return 1;
+  }
+
+  return 0;
+}
+
+void startGame(char word[25])
+{
+  int won = 0;              // Flag to see if the user has won yet
+  int numBadGuesses = 0;    // Counter to end the game on a lose condition
+  int possibleBadGuesses;   // Total number of bad guesses allowed
+  int charRevealed;         // Flag to see if the user guessed a good letter
+  char guess;               // The user's guess
+  char revealedLetters[25]; // What the user has revealed so far
 
   // Initializes the guessing array to all underscores
   initializeBlankString(strlen(word), revealedLetters);
@@ -33,7 +107,8 @@ void startGame(char word[25]) {
 
   // Runs the game loop until the number of tries are exhausted or the word is
   // found
-  while (numBadGuesses <= possibleBadGuesses && !won) {
+  while (numBadGuesses <= possibleBadGuesses && !won)
+  {
     printf("Enter a letter to guess: ");
     scanf(" %c", &guess);
 
@@ -42,7 +117,8 @@ void startGame(char word[25]) {
     won = checkGuess(word, revealedLetters);
 
     // Increments bad guesses if the last guess was a miss
-    if (!charRevealed) {
+    if (!charRevealed)
+    {
       numBadGuesses++;
     }
 
@@ -60,7 +136,8 @@ void startGame(char word[25]) {
 // Draws part of the horse pending on how many guesses have been made so far
 // Horse grabbed from: https://www.asciiart.eu/animals/horses
 // And no, I don't know why there's an entire site dedicated to virtualhorses =/
-void drawHorse(int guessedSoFar, int allowedGuesses) {
+void drawHorse(int guessedSoFar, int allowedGuesses)
+{
   // The horse!  Duh!
   char *horsey[29] = {"   Y8baadP\"\"\"\"\"\"\"\"Yba,_",
                       "aaadP\"'             `\"\"Yb,",
@@ -100,12 +177,14 @@ void drawHorse(int guessedSoFar, int allowedGuesses) {
   linesToDraw = linesToDraw <= 29 ? linesToDraw : 29;
 
   int i;
-  for (i = 29 - linesToDraw; i < 29; i++) {
+  for (i = 29 - linesToDraw; i < 29; i++)
+  {
     printf("%s\n", horsey[i]);
   }
 }
 
-void clearScreen() {
+void clearScreen()
+{
   // Some UNIX hackary to clear the terminal.  Makes this not portable to some
   // systems,
   // but should work fine on CSE
